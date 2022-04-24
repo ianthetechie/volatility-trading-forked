@@ -1,5 +1,31 @@
 # volest #
 
+## Forked codebase notes
+
+This repo is a fork of [existing work](https://github.com/jasonstrimpel/volatility-trading).
+However, the original repo appears to be inactive and has a number of obvious issues that
+prevent it from being actually usable. I've taken an _extremely_ minimal pass at fixing these,
+and it probably goes without saying that you should do your own homework. Hopefully this is
+helpful to some.
+
+I've also put together a Jupyter notebook, which offers some advantages of the PDF
+term sheet but in a more interactive form.
+
+Also of note: the original repo does not have any sort of dependency management strategy. I
+have not attempted to correct this. Any good IDE will alert you to the problems, but at a
+minimum you'll probably need the following dependencies via pip, conda, or whatever you prefer.
+
+* pandas
+* numpy
+* scipy
+* statsmodels
+* matplotlib
+
+My notebook additionally uses the following:
+
+* ccxt (for pulling crypto price histories from FTX.com)
+* yfinance (for pulling equity price data from Yahoo! Finance)
+
 ## A complete set of volatility estimators based on Euan Sinclair's Volatility Trading. ##
 http://www.amazon.com/gp/product/0470181990/tag=quantfinancea-20
 

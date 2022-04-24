@@ -7,6 +7,7 @@ from scipy.stats import norm
 import statsmodels.api as sm
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 from matplotlib.backends.backend_pdf import PdfPages
 
 from volatility import models
@@ -140,7 +141,7 @@ class VolatilityEstimator(object):
             clean=clean
         )
    
-    def cones(self, windows=[30, 60, 90, 120], quantiles=[0.25, 0.75]):
+    def cones(self, windows=[30, 60, 90, 120], quantiles=[0.25, 0.75], figsize=(8, 6)):
         """Plots volatility cones
         
         Parameters
@@ -190,13 +191,13 @@ class VolatilityEstimator(object):
 
             data.append(estimator)
         
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
 
         # figure
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         fig.autofmt_xdate()
         left, width = 0.07, 0.65
         bottom, height = 0.2, 0.7
@@ -220,6 +221,7 @@ class VolatilityEstimator(object):
 
         # set and format the y-axis labels
         locs = cones.get_yticks()
+        cones.yaxis.set_major_locator(mticker.FixedLocator(locs))
         cones.set_yticklabels(map(f, locs))
 
         # turn on the grid
@@ -237,6 +239,7 @@ class VolatilityEstimator(object):
 
         # set and format the y-axis labels
         locs = box.get_yticks()
+        box.yaxis.set_major_locator(mticker.FixedLocator(locs))
         box.set_yticklabels(map(f, locs))
 
         # move the y-axis ticks on the right side
@@ -247,7 +250,7 @@ class VolatilityEstimator(object):
         
         return fig, plt
 
-    def rolling_quantiles(self, window=30, quantiles=[0.25, 0.75]):
+    def rolling_quantiles(self, window=30, quantiles=[0.25, 0.75], figsize=(8, 6)):
         """Plots rolling quantiles of volatility
         
         Parameters
@@ -282,13 +285,13 @@ class VolatilityEstimator(object):
         realized = estimator
         last = estimator[-1]
 
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
 
         # figure
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         fig.autofmt_xdate()
         left, width = 0.07, 0.65
         bottom, height = 0.2, 0.7
@@ -308,6 +311,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = cones.get_yticks()
+        cones.yaxis.set_major_locator(mticker.FixedLocator(locs))
         cones.set_yticklabels(map(f, locs))
         
         # turn on the grid
@@ -325,6 +329,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = box.get_yticks()
+        box.yaxis.set_major_locator(mticker.FixedLocator(locs))
         box.set_yticklabels(map(f, locs))
         
         # move the y-axis ticks on the right side
@@ -335,7 +340,7 @@ class VolatilityEstimator(object):
         
         return fig, plt
 
-    def rolling_extremes(self, window=30):
+    def rolling_extremes(self, window=30, figsize=(8, 6)):
         """Plots rolling max and min of volatility estimator
         
         Parameters
@@ -356,13 +361,13 @@ class VolatilityEstimator(object):
         realized = estimator
         last = estimator[-1]
 
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
 
         # figure
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         fig.autofmt_xdate()
         left, width = 0.07, 0.65
         bottom, height = 0.2, 0.7
@@ -381,6 +386,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = cones.get_yticks()
+        cones.yaxis.set_major_locator(mticker.FixedLocator(locs))
         cones.set_yticklabels(map(f, locs))
         
         # turn on the grid
@@ -398,6 +404,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = box.get_yticks()
+        box.yaxis.set_major_locator(mticker.FixedLocator(locs))
         box.set_yticklabels(map(f, locs))
         
         # move the y-axis ticks on the right side
@@ -408,7 +415,7 @@ class VolatilityEstimator(object):
         
         return fig, plt
 
-    def rolling_descriptives(self, window=30):
+    def rolling_descriptives(self, window=30, figsize=(8, 6)):
         """Plots rolling first and second moment of volatility estimator
         
         Parameters
@@ -431,13 +438,13 @@ class VolatilityEstimator(object):
         realized = estimator
         last = estimator[-1]
 
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
 
         # figure
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         fig.autofmt_xdate()
         left, width = 0.07, 0.65
         left_h = left+width+0.02
@@ -450,7 +457,7 @@ class VolatilityEstimator(object):
         box = plt.axes(rect_box)
         z = plt.axes(rect_z)
         
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
@@ -462,6 +469,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = cones.get_yticks()
+        cones.yaxis.set_major_locator(mticker.FixedLocator(locs))
         cones.set_yticklabels(map(f, locs))
         
         # turn on the grid
@@ -481,6 +489,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = box.get_yticks()
+        box.yaxis.set_major_locator(mticker.FixedLocator(locs))
         box.set_yticklabels(map(f, locs))
         
         # move the y-axis ticks on the right side
@@ -503,7 +512,7 @@ class VolatilityEstimator(object):
         
         return fig, plt
 
-    def histogram(self, window=90, bins=100, normed=True):
+    def histogram(self, window=90, bins=100, normed=True, figsize=(8, 6)):
         """
         
         Parameters
@@ -524,9 +533,9 @@ class VolatilityEstimator(object):
         std = estimator.std()
         last = estimator[-1]
 
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         
-        n, bins, patches = plt.hist(estimator, bins, normed=normed, facecolor='blue', alpha=0.25)
+        n, bins, patches = plt.hist(estimator, bins, density=normed, color='blue', stacked=normed)
         
         if normed:
             y = norm.pdf(bins, mean, std)
@@ -541,7 +550,7 @@ class VolatilityEstimator(object):
         
         return fig, plt
     
-    def benchmark_compare(self, window=90):
+    def benchmark_compare(self, window=90, figsize=(8, 6)):
         """
         
         Parameters
@@ -567,13 +576,13 @@ class VolatilityEstimator(object):
         
         ratio = y / x
 
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
         
         # figure
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         fig.autofmt_xdate()
         left, width = 0.07, .9
         
@@ -589,6 +598,7 @@ class VolatilityEstimator(object):
         
         # set and format the y-axis labels
         locs = cones.get_yticks()
+        cones.yaxis.set_major_locator(mticker.FixedLocator(locs))
         cones.set_yticklabels(map(f, locs))
         
         # turn on the grid
@@ -616,7 +626,7 @@ class VolatilityEstimator(object):
 
         return fig, plt
 
-    def benchmark_correlation(self, window=90):
+    def benchmark_correlation(self, window=90, figsize=(8, 6)):
         """
         
         Parameters
@@ -642,13 +652,13 @@ class VolatilityEstimator(object):
 
         corr = x.rolling(window=window).corr(other=y)
 
-        if self._estimator is "Skew" or self._estimator is "Kurtosis":
+        if self._estimator in {"Skew", "Kurtosis"}:
             f = lambda x: "%i" % round(x, 0)
         else:
             f = lambda x: "%i%%" % round(x*100, 0)
         
         # figure
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         cones = plt.axes()
 
         # set the plots
@@ -659,6 +669,7 @@ class VolatilityEstimator(object):
 
         # set and format the y-axis labels
         locs = cones.get_yticks()
+        cones.yaxis.set_major_locator(mticker.FixedLocator(locs))
         cones.set_yticklabels(map(f, locs))
 
         # turn on the grid
@@ -705,7 +716,8 @@ class VolatilityEstimator(object):
             quantiles=[0.25, 0.75],
             bins=100,
             normed=True,
-            open=False):
+            open=False,
+            figsize=(8, 6)):
         
         cones_fig, cones_plt = self.cones(windows=windows, quantiles=quantiles)
         rolling_quantiles_fig, rolling_quantiles_plt = self.rolling_quantiles(window=window, quantiles=quantiles)
@@ -728,7 +740,7 @@ class VolatilityEstimator(object):
         pp.savefig(benchmark_compare_fig)
         pp.savefig(benchmark_corr_fig)
 
-        fig = plt.figure(figsize=(8, 6))
+        fig = plt.figure(figsize=figsize)
         ax = fig.add_subplot(111)
         ax.text(
             0, .2,
